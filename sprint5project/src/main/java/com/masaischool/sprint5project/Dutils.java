@@ -13,7 +13,7 @@ public class Dutils {
 		emf = Persistence.createEntityManagerFactory("project");
 	}
 	
-	static EntityManager getManager() {
+	public static EntityManager getManager() {
 		return emf.createEntityManager();
 	}
 	

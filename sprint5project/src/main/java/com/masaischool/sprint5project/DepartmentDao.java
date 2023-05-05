@@ -3,6 +3,7 @@ package com.masaischool.sprint5project;
 import com.masaischool.sprint5project.exception.DataAlreadyExistException;
 import com.masaischool.sprint5project.exception.EmptyListException;
 import com.masaischool.sprint5project.exception.InvalidDetailsException;
+import com.masaischool.sprint5project.exception.SomethingWentWrongException;
 import com.masaischool.sprint5project.exception.WrongCrediancialException;
 
 public interface DepartmentDao {
@@ -12,7 +13,7 @@ public interface DepartmentDao {
 	public void addNewDepartment(String name) throws DataAlreadyExistException;
 	public void viewAllDepartment() throws EmptyListException;
 	public void updateDepartmentName(String oName,String nName) throws InvalidDetailsException;
-	public void registerEmployee(Employee employee,String deptName) throws InvalidDetailsException;
+	public void registerEmployee(Employee employee,String deptName) throws SomethingWentWrongException,InvalidDetailsException;
 	public void changeDepartmentOfEmployee(String username,String prevDepName,String newDepName) throws InvalidDetailsException;
 	
 	public void approveOrDenyLeaveRequest(String username,String reason,int numOfDays);

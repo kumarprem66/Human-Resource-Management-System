@@ -25,7 +25,7 @@ public class Department {
 	private Set<Employee> employee;
 
 	private int isDeleted = 0;
-	
+
 	
 	public int isDeleted() {
 		return isDeleted;
@@ -73,8 +73,10 @@ public class Department {
 
 	@Override
 	public String toString() {
-		return "Department [id=" + id + ", name=" + name + ", employee=" + employee + "]";
+		return "Department [id=" + id + ", name=" + name + ", employee=" + employee + ", isDeleted=" + isDeleted + "]";
 	}
+
+	
 	
 	
 	

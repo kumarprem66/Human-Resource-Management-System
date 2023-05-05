@@ -21,10 +21,13 @@ public class Employee {
 	private String email;
 	private String name;
 	private int salary;
-	private String password;
+	private String password = "123456";
 	private int isDeleted = 0;
+	private Date joinningDate;
 	
-	
+	@ManyToOne
+	@JoinColumn(name = "department_id")
+	private Department department;
 	
 	public int isDeleted() {
 		return isDeleted;
@@ -36,7 +39,7 @@ public class Employee {
 	}
 
 
-	private Date joinningDate;
+
 	
 	
 	public Date getJoinningDate() {
@@ -49,19 +52,17 @@ public class Employee {
 	}
 
 
-	@ManyToOne
-	@JoinColumn(name = "department_id")
-	private Department department;
+	
 
 
-	public Employee(int id, String email, String name, int salary, String password, Date joinningDate,
+	public Employee(int id, String email, String name, int salary,Date joinningDate,
 			Department department) {
 		super();
 		this.id = id;
 		this.email = email;
 		this.name = name;
 		this.salary = salary;
-		this.password = password;
+		
 		this.joinningDate = joinningDate;
 		this.department = department;
 	}
