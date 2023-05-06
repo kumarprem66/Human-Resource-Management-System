@@ -1,0 +1,59 @@
+package com.masaischool.sprint5project;
+
+public class LeaveDTO {
+	
+	
+	private int id;
+	private String reason;
+	private int numOfDays;
+	private String employeeName;
+	private String status;
+	
+	public LeaveDTO() {
+		super();
+
+
+	}
+	public LeaveDTO(int id, String reason, int numOfDays, String employeeName, String status) {
+		super();
+		this.id = id;
+		this.reason = reason;
+		this.numOfDays = numOfDays;
+		this.employeeName = employeeName;
+		this.status = status;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getReason() {
+		return reason;
+	}
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+	public int getNumOfDays() {
+		return numOfDays;
+	}
+	public void setNumOfDays(int numOfDays) {
+		this.numOfDays = numOfDays;
+	}
+	public String getEmployeeName() {
+		return employeeName;
+	}
+	public void setEmployeeName(String employeeName) {
+		this.employeeName = employeeName;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	
+	
+	
+
+}

@@ -1,0 +1,65 @@
+package com.masaischool.sprint5project;
+
+import com.masaischool.sprint5project.exception.DataAlreadyExistException;
+import com.masaischool.sprint5project.exception.EmptyListException;
+import com.masaischool.sprint5project.exception.InvalidDetailsException;
+import com.masaischool.sprint5project.exception.WrongCrediancialException;
+
+public class DepartmentDaoImp implements DepartmentDao{
+
+	@Override
+	public boolean loginDepartment() throws WrongCrediancialException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void addNewDepartment(String name, int id) throws DataAlreadyExistException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void viewAllDepartment() throws EmptyListException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateDepartmentName(int id) throws InvalidDetailsException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void registerEmployee(Employee employee, String deptName) throws InvalidDetailsException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void changeDepartmentOfEmployee(String username, String prevDepName, String newDepName)
+			throws InvalidDetailsException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void approveOrDenyLeaveRequest(String username, String reason, int numOfDays) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void fireEmployee(String username) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void logoutDepartment() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

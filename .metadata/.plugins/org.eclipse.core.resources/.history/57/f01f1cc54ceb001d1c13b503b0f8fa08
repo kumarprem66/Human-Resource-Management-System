@@ -1,0 +1,131 @@
+package com.masaischool.sprint5project;
+
+import com.masaischool.sprint5project.exception.InvalidDetailsException;
+import com.masaischool.sprint5project.exception.SomethingWentWrongException;
+import com.masaischool.sprint5project.exception.WrongCrediancialException;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+
+public class EmployeeDaoImp implements EmployeeDao{
+
+	String Gusername = "";
+	@Override
+	public boolean loginEmp(String username, String password) throws WrongCrediancialException {
+
+		EntityManager em = Dutils.getManager();
+		try {
+			String jpql = "Select e.email from Employee e where e.email = :email and e.password = :password and e.isDeleted = 0";
+			Query query = em.createQuery(jpql);
+			query.setParameter("email", username);
+			query.setParameter("password", password);
+			String s  = (String) query.getSingleResult();
+			Gusername = s;
+			System.out.println(Gusername);
+			em.close();
+			return true;
+		}catch(Exception ei) {
+			em.close();
+			return false;
+		}
+
+		
+		
+	}
+
+	@Override
+	public void updateDetails(String username,String name,int salary) throws InvalidDetailsException {
+		// TODO Auto-generated method stub
+		EntityManager em = Dutils.getManager();
+		try {
+			em.getTransaction().begin();
+			String jpql = "UPDATE Employee e Set e.name = :name, e.salary = :salary where e.email = :email and e.isDeleted = 0";
+			Query query = em.createQuery(jpql);
+			
+			query.setParameter("email", Gusername);
+			query.setParameter("salary", salary);
+			query.setParameter("name", name);
+			int i = query.executeUpdate();
+			if(i==0) {
+				throw new InvalidDetailsException("username is not exist");
+			}
+			System.out.println(i + " employee updated.....");
+			
+		}catch(Exception ei) {
+
+			System.out.println(ei.getMessage());
+		}
+		em.getTransaction().commit();
+		em.close();
+		
+	}
+
+	@Override
+	public void changePassword(String username,String oldPass,String newPass) throws InvalidDetailsException {
+		EntityManager em = Dutils.getManager();
+		try {
+			em.getTransaction().begin();
+			String jpql = "UPDATE Employee e Set e.password = :pass where e.email = :email and e.password = :oPass and e.isDeleted = 0";
+			Query query = em.createQuery(jpql);
+			
+			query.setParameter("email", username);
+			query.setParameter("pass", newPass);
+			query.setParameter("oPass", oldPass);
+			int i = query.executeUpdate();
+			if(i==0) {
+				throw new InvalidDetailsException("username and password did not match");
+			}
+			System.out.println(i + " password updated..... with "+newPass);
+			
+		}catch(Exception ei) {
+
+			System.out.println(ei.getMessage());
+		}
+		em.getTransaction().commit();
+		em.close();
+		
+	}
+
+	@Override
+	public int leave(String username, String reason, int noOfDays) throws InvalidDetailsException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void checkLeaveStatus(String username, int leaveId) throws InvalidDetailsException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void checkleaveHistory(String username) throws InvalidDetailsException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int totalSalaryOfMonth(String username) throws InvalidDetailsException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int AnnualSalary(String username) throws InvalidDetailsException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void deleteAccount(String username) throws InvalidDetailsException, SomethingWentWrongException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void logoutEmp() throws SomethingWentWrongException {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

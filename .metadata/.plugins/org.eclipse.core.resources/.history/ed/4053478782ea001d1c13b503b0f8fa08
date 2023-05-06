@@ -1,0 +1,55 @@
+package com.masaischool.sprint5project;
+
+import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.EntityManager;
+
+/**
+ * Hello world!
+ *
+ */
+public class App 
+{
+    public static void main( String[] args )
+    {
+        
+    	System.out.println("prem kumar");
+    	
+    	
+    	
+    	EntityManager em = Dutils.getManager();
+    	
+    	Department dp = new Department();
+    	dp.setName("prem_HR");
+    	
+    	Employee e = new Employee();
+    	e.setName("kumar");
+    	e.setEmail("premstart10@gmail.com");
+    	e.setSalary(10000);
+    	e.setPassword("123456");
+    	e.setDepartment(dp);
+    	e.setJoinningDate(new Date(System.currentTimeMillis()));
+    	
+    	Set<Employee> setem = new HashSet<>();
+    	setem.add(e);
+    	
+    	dp.setEmployee(setem);
+    	
+    	em.getTransaction().begin();
+    	try {
+    		em.persist(dp);
+    	}catch(Exception ex) {
+    		System.out.println(ex.getMessage());
+    	}
+    	
+    	em.getTransaction().commit();
+    	em.close();
+    	
+    }
+    
+    
+    
+    
+}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="com.masaischool.sprint5project.Employee"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.OneToMany"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.CascadeType"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Persistence"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.EntityManager"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Entity"/>
+    <fullyQualifiedTypeName name="com.mysql.cj.exceptions.WrongArgumentException"/>
+    <fullyQualifiedTypeName name="com.masaischool.sprint5project.exception.DataAlreadyExistException"/>
+    <fullyQualifiedTypeName name="com.masaischool.sprint5project.exception.EmptyListException"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.TemporalType"/>
+    <fullyQualifiedTypeName name="org.hibernate.annotations.CreationTimestamp"/>
+    <fullyQualifiedTypeName name="java.util.Scanner"/>
+    <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="com.masaischool.sprint5project.DepartmentDaoImp"/>
+    <fullyQualifiedTypeName name="com.masaischool.sprint5project.EmployeeDaoImp"/>
+    <fullyQualifiedTypeName name="java.lang.Exception"/>
+    <fullyQualifiedTypeName name="org.hibernate.QueryException"/>
+    <fullyQualifiedTypeName name="org.hibernate.internal.build.AllowSysOut"/>
+    <fullyQualifiedTypeName name="com.masaischool.sprint5project.Department"/>
+    <fullyQualifiedTypeName name="com.masaischool.sprint5project.exception.SomethingWentWrongException"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.Query"/>
+    <fullyQualifiedTypeName name="java.lang.IllegalArgumentException"/>
+    <fullyQualifiedTypeName name="com.masaischool.sprint5project.exception.WrongCrediancialException"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.ManyToOne"/>
+    <fullyQualifiedTypeName name="com.masaischool.sprint5project.IdGenerator"/>
+    <fullyQualifiedTypeName name="java.util.Set"/>
+    <fullyQualifiedTypeName name="java.sql.Date"/>
+    <fullyQualifiedTypeName name="java.io.Serializable"/>
+    <fullyQualifiedTypeName name="jakarta.persistence.GenerationType"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="com.masaischool.sprint5project.exception.InvalidDetailsException"/>
+    <fullyQualifiedTypeName name="com.masaischool.sprint5project.exception.NotaCurrentUserException"/>
+</qualifiedTypeNameHistroy>
