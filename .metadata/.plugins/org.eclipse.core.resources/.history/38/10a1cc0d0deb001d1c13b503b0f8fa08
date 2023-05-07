@@ -1,0 +1,142 @@
+package com.masaischool.sprint5project;
+
+import java.sql.Date;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Entity
+public class Employee {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	
+	@Column(name = "email",unique = true,nullable = false)
+	private String email;
+	private String name;
+	private int salary;
+	private String password;
+	private int isDeleted = 0;
+	
+	
+	
+	public int isDeleted() {
+		return isDeleted;
+	}
+
+
+	public void setDeleted(int isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+
+	private Date joinningDate;
+	
+	
+	public Date getJoinningDate() {
+		return joinningDate;
+	}
+
+
+	public void setJoinningDate(Date joinningDate) {
+		this.joinningDate = joinningDate;
+	}
+
+
+	@ManyToOne
+	@JoinColumn(name = "department_id")
+	private Department department;
+
+
+	public Employee(int id, String email, String name, int salary, String password, Date joinningDate,
+			Department department) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.name = name;
+		this.salary = salary;
+		this.password = password;
+		this.joinningDate = joinningDate;
+		this.department = department;
+	}
+
+
+	public Employee() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+
+	
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public int getSalary() {
+		return salary;
+	}
+
+
+	public void setSalary(int salary) {
+		this.salary = salary;
+	}
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+	public Department getDepartment() {
+		return department;
+	}
+
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+	
+	
+	
+	
+	
+}

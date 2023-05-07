@@ -1,0 +1,255 @@
+package com.masaischool.sprint5project;
+
+import com.masaischool.sprint5project.exception.InvalidDetailsException;
+import com.masaischool.sprint5project.exception.NotaCurrentUserException;
+import com.masaischool.sprint5project.exception.SomethingWentWrongException;
+import com.masaischool.sprint5project.exception.WrongCrediancialException;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+
+public class EmployeeDaoImp implements EmployeeDao{
+
+	static String Gusername = "";
+	@Override
+	public boolean loginEmp(String username, String password) throws WrongCrediancialException {
+
+		EntityManager em = Dutils.getManager();
+		try {
+			String jpql = "Select e.email from Employee e where e.email = :email and e.password = :password and e.isDeleted = 0";
+			Query query = em.createQuery(jpql);
+			query.setParameter("email", username);
+			query.setParameter("password", password);
+			String s  = (String) query.getSingleResult();
+			Gusername = s;
+			System.out.println(Gusername);
+			em.close();
+			return true;
+		}catch(Exception ei) {
+			em.close();
+			return false;
+		}
+
+		
+		
+	}
+
+	@Override
+	public void updateDetails(String username,String name,int salary) throws InvalidDetailsException,NotaCurrentUserException{
+		
+		if(username.equals(Gusername)) {
+			
+		
+		EntityManager em = Dutils.getManager();
+		try {
+			em.getTransaction().begin();
+			String jpql = "UPDATE Employee e Set e.name = :name, e.salary = :salary where e.email = :email and e.isDeleted = 0";
+			Query query = em.createQuery(jpql);
+			
+			query.setParameter("email", username);
+			query.setParameter("salary", salary);
+			query.setParameter("name", name);
+			int i = query.executeUpdate();
+			if(i==0) {
+				throw new InvalidDetailsException("username is not exist");
+			}
+			System.out.println(i + " employee updated.....");
+			
+		}catch(Exception ei) {
+
+			System.out.println(ei.getMessage());
+		}
+		em.getTransaction().commit();
+		em.close();
+		}else {
+			throw new NotaCurrentUserException("This is not your username");
+		}
+		
+	}
+
+	@Override
+	public void changePassword(String username,String oldPass,String newPass) throws InvalidDetailsException,NotaCurrentUserException {
+		if(username.equals(Gusername)) {
+			EntityManager em = Dutils.getManager();
+			try {
+				em.getTransaction().begin();
+				String jpql = "UPDATE Employee e Set e.password = :pass where e.email = :email and e.password = :oPass and e.isDeleted = 0";
+				Query query = em.createQuery(jpql);
+				
+				query.setParameter("email", username);
+				query.setParameter("pass", newPass);
+				query.setParameter("oPass", oldPass);
+				int i = query.executeUpdate();
+				if(i==0) {
+					throw new InvalidDetailsException("username and password did not match");
+				}
+				System.out.println(i + " password updated..... with "+newPass);
+				
+			}catch(Exception ei) {
+
+				System.out.println(ei.getMessage());
+			}
+			em.getTransaction().commit();
+			em.close();
+		}else {
+			throw new NotaCurrentUserException("This is not your username");
+		}
+	
+		
+	}
+
+	@Override
+	public int leave(String username, String reason, int noOfDays) throws InvalidDetailsException,NotaCurrentUserException {
+
+		EntityManager em = Dutils.getManager();
+	
+		em.getTransaction().begin();
+		String jpql = "Insert into EmpLeave l (l.reason,l.noOfDays,l.status,l.employee) SELECT :reason, :noOfDays, :status, e from Employee e where e.email = :email";
+		Query query = em.createQuery(jpql);
+		query.setParameter("reason", reason);
+		query.setParameter("noOfDays", noOfDays);
+		query.setParameter("status", "Requested");
+		query.setParameter("email", username);
+		int i = query.executeUpdate();
+		System.out.println(i + " leave inserted");
+		
+		em.getTransaction().commit();
+		em.close();
+		return 0;
+	}
+
+	@Override
+	public void checkLeaveStatus(String username, int leaveId) throws InvalidDetailsException,NotaCurrentUserException {
+
+		EntityManager em = Dutils.getManager();
+		
+		em.getTransaction().begin();
+		
+		String jpql = "SELECT l.status FROM EmpLeave l where id = :leaveId";
+		Query query = em.createQuery(jpql);
+		query.setParameter("leaveId", leaveId);
+		String status = (String)query.getSingleResult();
+		System.out.println(status);
+		
+		
+	}
+
+	@Override
+	public void checkleaveHistory(String username) throws InvalidDetailsException,NotaCurrentUserException {
+
+
+		EntityManager em = Dutils.getManager();
+		
+		em.getTransaction().begin();
+		
+		String jpql = "SELECT l.id,l.status,l.noOfDays,l.reason,e.name FROM EmpLeave l JOIN Employee e where e.email = :email";
+		Query query = em.createQuery(jpql);
+		query.setParameter("email", username);
+		query.getSingleResult();
+		System.out.println(query.getSingleResult().toString());
+		
+		
+		
+	}
+
+	@Override
+	public int totalSalaryOfMonth(String username) throws InvalidDetailsException,NotaCurrentUserException {
+		int salary = 0;
+
+//		System.out.println(username);
+		System.out.println(Gusername+"--------------------");
+		
+		
+		
+		if(username.equals(Gusername)) {
+			EntityManager em = Dutils.getManager();
+			try {
+				em.getTransaction().begin();
+				String jpql = "Select e.salary from Employee e where e.email = :email";
+				Query query = em.createQuery(jpql);
+				query.setParameter("email", username);
+				salary = (int) query.getSingleResult();
+				
+			}catch(Exception ei) {
+
+				System.out.println(ei.getMessage());
+			}
+			em.getTransaction().commit();
+			em.close();
+		}else {
+			throw new NotaCurrentUserException("This is not your username");
+		}
+		return salary;
+	}
+
+	@Override
+	public int AnnualSalary(String username) throws InvalidDetailsException,NotaCurrentUserException {
+		
+		
+		int salary = 0;
+
+//		System.out.println(username);
+		System.out.println(Gusername+"--------------------");
+		
+		
+		
+		if(username.equals(Gusername)) {
+			EntityManager em = Dutils.getManager();
+			try {
+				em.getTransaction().begin();
+				String jpql = "Select e.salary from Employee e where e.email = :email";
+				Query query = em.createQuery(jpql);
+				query.setParameter("email", username);
+				salary = (int) query.getSingleResult();
+				
+			}catch(Exception ei) {
+
+				System.out.println(ei.getMessage());
+			}
+			em.getTransaction().commit();
+			em.close();
+		}else {
+			throw new NotaCurrentUserException("This is not your username");
+		}
+		return salary*12;
+	}
+
+	@Override
+	public void deleteAccount(String username) throws InvalidDetailsException, SomethingWentWrongException,NotaCurrentUserException {
+		
+		if(username.equals(Gusername)) {
+			EntityManager em = Dutils.getManager();
+			try {
+				em.getTransaction().begin();
+				String jpql = "UPDATE Employee e Set e.isDeleted = 1 where e.email = :email";
+				Query query = em.createQuery(jpql);
+				
+				query.setParameter("email", username);
+			
+				int i = query.executeUpdate();
+				if(i==0) {
+					throw new InvalidDetailsException("username and password did not match");
+				}
+				System.out.println(username + " is deleted..");
+				
+			}catch(Exception ei) {
+
+				System.out.println(ei.getMessage());
+			}
+			em.getTransaction().commit();
+			em.close();
+		}else {
+			throw new NotaCurrentUserException("This is not your username");
+		}
+	
+	}
+
+	@Override
+	public void logoutEmp() throws SomethingWentWrongException {
+		// TODO Auto-generated method stub
+		System.out.println("Logout successfull");
+		Gusername = "";
+		
+	}
+
+}

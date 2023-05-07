@@ -1,0 +1,229 @@
+package com.masaischool.sprint5project;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.masaischool.sprint5project.exception.DataAlreadyExistException;
+import com.masaischool.sprint5project.exception.EmptyListException;
+import com.masaischool.sprint5project.exception.InvalidDetailsException;
+import com.masaischool.sprint5project.exception.NotaCurrentUserException;
+import com.masaischool.sprint5project.exception.SomethingWentWrongException;
+import com.masaischool.sprint5project.exception.WrongCrediancialException;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+
+public class DepartmentDaoImp implements DepartmentDao{
+
+	@Override
+	public boolean loginDepartment(String username,String password) throws WrongCrediancialException {
+		// TODO Auto-generated method stub
+		if(username.equals(Utils.USERNAME)) {
+			if(password.equals(Utils.PASSWORD)) {
+				return true;
+			}else {
+				throw new WrongCrediancialException("Password is incorrect");
+				
+			}
+		}else {
+			throw new WrongCrediancialException("Username is incorrect");
+		}
+		
+	}
+
+	@Override
+	public void addNewDepartment(String oName) throws DataAlreadyExistException {
+		
+		EntityManager em =  Dutils.getManager();
+		Department dept = new Department();
+		dept.setName(oName);
+		em.getTransaction().begin();
+		try {
+			em.persist(dept);
+		}catch(Exception e) {
+			throw new DataAlreadyExistException("this department is already exist");
+		}
+		
+		em.getTransaction().commit();
+		em.close();
+		
+	}
+
+	@Override
+	public void viewAllDepartment() throws EmptyListException {
+		EntityManager em =  Dutils.getManager();
+		String getAllDept = "SELECT d from Department d";
+		
+		Query query = em.createQuery(getAllDept);
+		List<Department> dept = query.getResultList();
+		if(dept.isEmpty()) {
+			throw new EmptyListException("no department data is available");
+		}else {
+			dept.forEach(i->System.out.println(i));
+		}
+		
+		em.close();
+		
+	}
+
+	@Override
+	public void updateDepartmentName(String oName,String nName) throws InvalidDetailsException {
+		
+		EntityManager em =  Dutils.getManager();
+		em.getTransaction().begin();
+
+		String jpql = "UPDATE Department d SET d.name = :nName WHERE d.name = :name";
+		
+		Query query = em.createQuery(jpql);
+		query.setParameter("name", oName);
+		query.setParameter("nName", nName);
+		
+		int numUpdated = query.executeUpdate();
+		System.out.println(numUpdated + " Department updated");
+
+
+		em.getTransaction().commit();
+		em.close();
+		
+	}
+
+	@Override
+	public void registerEmployee(Employee employee, String deptName) throws SomethingWentWrongException,InvalidDetailsException {
+
+
+		EntityManager em =  Dutils.getManager();
+		
+		em.getTransaction().begin();
+		try {
+			String jpql = "INSERT INTO Employee e (e.email, e.name, e.salary, e.password, e.isDeleted, e.joinningDate, e.department) SELECT :email, :name, :salary, :password, 0, :joinningDate, d FROM Department d WHERE d.name = :deptName";
+			
+			Query query = em.createQuery(jpql);
+			query.setParameter("email", employee.getEmail());
+			query.setParameter("name", employee.getName());
+			query.setParameter("salary", employee.getSalary());
+			query.setParameter("password","123456");
+			query.setParameter("joinningDate",new Date(System.currentTimeMillis()));
+			query.setParameter("deptName", deptName);
+			int numInserted = query.executeUpdate();
+			if(numInserted==0) {
+				throw new InvalidDetailsException("");
+			}
+
+			System.out.println(numInserted + " department updated with new employee");
+		}catch(Exception e) {
+			throw new SomethingWentWrongException(deptName + " is not exist or employee is already exist");
+			
+		}
+
+		em.getTransaction().commit();
+		em.close();
+		
+		
+		
+		
+	}
+
+	@Override
+	public void changeDepartmentOfEmployee(String username, String prevDepName, String newDepName)
+			throws InvalidDetailsException {
+		EntityManager em =  Dutils.getManager();
+
+		em.getTransaction().begin();
+
+		String jpql = "UPDATE Employee e SET e.department = (SELECT d FROM Department d WHERE d.name = :newDeptName) \r\n"
+				+ "WHERE e.department = (SELECT d FROM Department d WHERE d.name = :oldDeptName) \r\n"
+				+ "AND e.name = :empName\r\n"
+				+ "";
+		Query query = em.createQuery(jpql);
+		query.setParameter("newDeptName", newDepName);
+		query.setParameter("oldDeptName", prevDepName);
+		query.setParameter("empName", username);
+		int updated = query.executeUpdate();
+		
+	
+		em.getTransaction().commit();
+		em.close();
+		if(updated==0) {
+			System.out.println("username not exist or department is not exist");
+		}else {
+			System.out.println(" employee updated with new department name "+newDepName);
+		}
+		
+		
+	}
+
+	@Override
+	public void approveOrDenyLeaveRequest(String dName) throws InvalidDetailsException,NotaCurrentUserException{
+
+
+		EntityManager em = Dutils.getManager();
+//		select l.status,l.noOfDays,l.reason from empleave l join employee e on l.emp_id = e.id join department d on e.department_id = d.id where d.name = 'prem_HR';
+		
+		String sql = "select l.status,l.noOfDays,l.reason,e.name from empleave l join employee e on l.emp_id = e.id join department d on e.department_id = d.id where d.name = 'prem_HR'";
+		String jpql = "SELECT l.status, l.noOfDays, l.reason \r\n"
+				+ "FROM EmpLeave l \r\n"
+				+ "JOIN l.employee e \r\n"
+				+ "JOIN e.department d \r\n"
+				+ "WHERE d.name = :dname\r\n"
+				+ "";
+		Query query = em.createQuery(jpql);
+		query.setParameter("dname", dName);
+		
+		List<Object[]> rows = query.getResultList();
+		
+		List<LeaveDTO> leavelist = new ArrayList<>();
+		for(Object[] row : rows) {
+			LeaveDTO ld = new LeaveDTO();
+			ld.setNumOfDays((int)row[1]);
+			ld.setStatus((String)row[0]);
+			ld.setReason((String)row[2]);
+			ld.setEmployeeName((String)row[2]);
+			leavelist.add(ld);
+		}
+		
+
+		leavelist.forEach(i->System.out.println(i.getEmployeeName()+" "+ i.getNumOfDays()+" "+i.getReason()+" "+i.getStatus()));
+		
+		
+	}
+
+	@Override
+	public void fireEmployee(String username,String dName) {
+		// TODO Auto-generated method stub
+		
+		EntityManager em =  Dutils.getManager();
+
+		em.getTransaction().begin();
+
+	
+		String jpql = "UPDATE Employee e SET e.isDeleted = 1 \r\n"
+				+ "WHERE e.department = (SELECT d FROM Department d WHERE d.name = :deptName) \r\n"
+				+ "AND e.email = :empName\r\n"
+				+ "";
+		Query query = em.createQuery(jpql);
+		query.setParameter("deptName", dName);
+		query.setParameter("empName", username);
+		int updated = query.executeUpdate();
+	
+		
+	
+		em.getTransaction().commit();
+		em.close();
+		if(updated==0) {
+			System.out.println("username not exist or department is not exist");
+		}else {
+			System.out.println(username+" deleted from the database");
+		}
+		
+	}
+
+	@Override
+	public void logoutDepartment() {
+		// TODO Auto-generated method stub
+		
+		System.out.println("Successfully logged out");
+		
+	}
+
+}

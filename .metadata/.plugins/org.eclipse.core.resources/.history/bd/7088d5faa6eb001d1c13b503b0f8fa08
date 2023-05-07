@@ -1,0 +1,89 @@
+package com.masaischool.sprint5project;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+import jakarta.persistence.Embeddable;
+
+@Embeddable
+public class LeaveId implements Serializable{
+
+	private static final long serialVersionUID = 1;
+	private int id;
+	private int empId;
+	public LeaveId() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	public LeaveId(int id, int empId) {
+		super();
+		this.id = id;
+		this.empId = empId;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getEmpId() {
+		return empId;
+	}
+	public void setEmpId(int empId) {
+		this.empId = empId;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(empId, id);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LeaveId other = (LeaveId) obj;
+		return empId == other.empId && id == other.id;
+	}
+	
+	
+}
+
+
+
+
+
+
+//
+//@Entity
+//public class Leave {
+//
+//	@EmbeddedId
+//	private LeaveId id;
+//
+//	private String reason;
+//	private int noOfDays;
+//
+//	@MapsId("empId")
+//	@ManyToOne
+//	@JoinColumn(name = "emp_id")
+//	private Employee employee;
+//
+//	// getters and setters
+//}
+//
+//@Embeddable
+//public class LeaveId implements Serializable {
+//
+//	private static final long serialVersionUID = 1L;
+//
+//	private int id;
+//	private int empId;
+//
+//	// constructors, getters and setters, equals, and hashCode
+//}
