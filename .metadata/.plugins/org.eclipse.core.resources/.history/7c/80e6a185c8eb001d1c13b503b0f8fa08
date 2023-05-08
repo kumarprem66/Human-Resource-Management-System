@@ -1,0 +1,113 @@
+package com.masaischool.sprint5project;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+
+
+
+
+//@Entity
+//public class EmpLeave {
+//
+//	@EmbeddedId
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	private LeaveId id;
+//
+//	private String reason;
+//	private int noOfDays;
+//
+//	@MapsId("empId")
+//	@ManyToOne
+//	@JoinColumn(name = "emp_id")
+//	private Employee employee;
+//
+//	// getters and setters
+//}
+
+
+@Entity
+public class EmpLeave {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String reason;
+	private int noOfDays;
+	private String status;
+	
+	@ManyToOne
+	@JoinColumn(name = "emp_id")
+	private Employee employee;
+
+
+	public EmpLeave() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public EmpLeave(String reason, int noOfDays, Employee employee) {
+		super();
+//		this.status = "Requested";
+		this.reason = reason;
+		this.noOfDays = noOfDays;
+		this.employee = employee;
+	}
+
+	
+
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getReason() {
+		return reason;
+	}
+
+	public void setReason(String reason) {
+		this.reason = reason;
+	}
+
+	public int getNoOfDays() {
+		return noOfDays;
+	}
+
+	public void setNoOfDays(int noOfDays) {
+		this.noOfDays = noOfDays;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+	
+	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "Leave [id=" + id + ", reason=" + reason + ", noOfDays=" + noOfDays + ", employee=" + employee + "]";
+	}
+	
+	
+	
+}

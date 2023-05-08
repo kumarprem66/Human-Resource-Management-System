@@ -1,0 +1,16 @@
+package com.masaischool.sprint5project;
+
+import com.masaischool.sprint5project.exception.DataAlreadyExistException;
+import com.masaischool.sprint5project.exception.EmptyListException;
+import com.masaischool.sprint5project.exception.WrongCrediancialException;
+
+public interface DepartmentDao {
+
+	
+	public boolean loginDepartment() throws WrongCrediancialException;
+	public void addNewDepartment(String name,int id) throws DataAlreadyExistException;
+	public void viewAllDepartment() throws EmptyListException;
+	public void updateDepartmentName(int id) throws 
+	
+	
+}
