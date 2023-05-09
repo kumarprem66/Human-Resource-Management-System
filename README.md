@@ -12,31 +12,28 @@ Employees
 
 Functionalities of Admin, an admin can:
 
-Login with his account.
-Add new departments using department name and department id
-View All the departments
-Update the department name
-Register a new employee using username, default password & department, salary.
-You can use email of employee as username. The default password is 123456 for
+1. Login with his account.
+2. Add new departments using department name and department id
+3. View All the departments
+4. Update the department name
+5. Register a new employee using username, default password & department, salary.
+6. You can use email of employee as username. The default password is 123456 for
 all employees. The date of joining will taken as system date.
 Change department of the employee
-
-Human Resource Management System 2
-
-Approve of deny employee leave request with remark
-Fire an employee (Delete an employee account)
+7. Approve of deny employee leave request with remark
+8. Fire an employee (Delete an employee account)
 Logout
 
 /////////////// ================ Employee =============== ///////////////////////
 
 Functionalities of Employee, an Employee can:
 
-Login with his account
-Update his account details and change password
-Apply for leave
-Can see the status of leave
-Can see history of leave
-Can see the total salary of a month
-Can see the annual salary of a financial year
-Delete account
-Logout
+1. Login with his account
+2. Update his account details and change password
+3. Apply for leave
+4. Can see the status of leave
+5. Can see history of leave
+6. Can see the total salary of a month
+7. Can see the annual salary of a financial year
+8. Delete account
+9. Logout
