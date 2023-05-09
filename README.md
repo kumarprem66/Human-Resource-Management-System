@@ -8,6 +8,8 @@ Employees
 
 
 /////////////// ================ ADMIN =============== ///////////////////////
+
+
 Functionalities of Admin, an admin can:
 
 Login with his account.
@@ -27,7 +29,8 @@ Logout
 
 /////////////// ================ Employee =============== ///////////////////////
 
-Employee:
+Functionalities of Employee, an Employee can:
+
 Login with his account
 Update his account details and change password
 Apply for leave
