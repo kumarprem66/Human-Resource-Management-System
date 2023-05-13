@@ -37,3 +37,45 @@ Functionalities of Employee, an Employee can:
 7. Can see the annual salary of a financial year
 8. Delete account
 9. Logout
+
+
+
+
+Department                                                                                  
+                                                                      
+ int id;
+ String name;
+@OneToMany
+Set<Employee> employee;
+int isDeleted = 0;
+
+
+Employee
+String email;
+String name;
+int salary;
+String password = "123456";
+int isDeleted = 0;
+Date joinningDate;
+@ManyToOne
+Department department;
+@OneToMany
+Set<EmpLeave> leave;
+  
+  
+  Empleave
+  
+ private int id;
+String status;
+String reason;
+ int noOfDays;
+ int leaveID;
+@ManyToOne
+Employee employee;
+
+  
+  
+
+
+
+
